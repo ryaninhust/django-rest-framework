@@ -127,3 +127,16 @@ def action(**kwargs):
         func.kwargs = kwargs
         return func
     return decorator
+
+def permission_reqiured(permission_classes):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            instance = args[0]
+            request = args[1]
+            for permission in permission_classes:
+                print permission
+                if not permission().has_permission(request, instance):
+                    instance.permission_denied(request)
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator

@@ -1,4 +1,6 @@
 # Django REST framework
+Hacking By Ryan:
+Add View-method layer permission controller
 
 **Awesome web-browseable Web APIs.**
 
