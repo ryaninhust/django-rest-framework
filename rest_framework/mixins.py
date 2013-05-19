@@ -41,11 +41,13 @@ def _get_validation_exclusions(obj, pk=None, slug_field=None, lookup_field=None)
 
 
 class CreateModelMixin(object):
+
     """
     Create a model instance.
     """
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.DATA, files=request.FILES)
+        serializer = self.get_serializer(
+            data=request.DATA, files=request.FILES)
 
         if serializer.is_valid():
             self.pre_save(serializer.object)
@@ -65,6 +67,7 @@ class CreateModelMixin(object):
 
 
 class ListModelMixin(object):
+
     """
     List a queryset.
     """
@@ -97,6 +100,7 @@ class ListModelMixin(object):
 
 
 class RetrieveModelMixin(object):
+
     """
     Retrieve a model instance.
     """
@@ -107,6 +111,7 @@ class RetrieveModelMixin(object):
 
 
 class UpdateModelMixin(object):
+
     """
     Update a model instance.
     """
@@ -170,11 +175,13 @@ class UpdateModelMixin(object):
         # Ensure we clean the attributes so that we don't eg return integer
         # pk using a string representation, as provided by the url conf kwarg.
         if hasattr(obj, 'full_clean'):
-            exclude = _get_validation_exclusions(obj, pk, slug_field, self.lookup_field)
+            exclude = _get_validation_exclusions(
+                obj, pk, slug_field, self.lookup_field)
             obj.full_clean(exclude)
 
 
 class DestroyModelMixin(object):
+
     """
     Destroy a model instance.
     """
@@ -182,3 +189,11 @@ class DestroyModelMixin(object):
         obj = self.get_object()
         obj.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class SubModelMixin(object):
+
+    """
+    turn the model into a sub-resource
+    """
+    parent = None

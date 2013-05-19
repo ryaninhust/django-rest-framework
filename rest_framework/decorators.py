@@ -13,7 +13,6 @@ import types
 
 
 def api_view(http_method_names):
-
     """
     Decorator that converts a function-based view into an APIView subclass.
     Takes a list of allowed methods for the view as an argument.
@@ -40,10 +39,12 @@ def api_view(http_method_names):
 
         # api_view applied with eg. string instead of list of strings
         assert isinstance(http_method_names, (list, tuple)), \
-            '@api_view expected a list of strings, recieved %s' % type(http_method_names).__name__
+            '@api_view expected a list of strings, recieved %s' % type(
+                http_method_names).__name__
 
         allowed_methods = set(http_method_names) | set(('options',))
-        WrappedAPIView.http_method_names = [method.lower() for method in allowed_methods]
+        WrappedAPIView.http_method_names = [
+            method.lower() for method in allowed_methods]
 
         def handler(self, *args, **kwargs):
             return func(*args, **kwargs)
@@ -59,8 +60,9 @@ def api_view(http_method_names):
         WrappedAPIView.parser_classes = getattr(func, 'parser_classes',
                                                 APIView.parser_classes)
 
-        WrappedAPIView.authentication_classes = getattr(func, 'authentication_classes',
-                                                        APIView.authentication_classes)
+        WrappedAPIView.authentication_classes = getattr(
+            func, 'authentication_classes',
+            APIView.authentication_classes)
 
         WrappedAPIView.throttle_classes = getattr(func, 'throttle_classes',
                                                   APIView.throttle_classes)
@@ -127,6 +129,7 @@ def action(**kwargs):
         func.kwargs = kwargs
         return func
     return decorator
+
 
 def permission_reqiured(permission_classes):
     def decorator(func):
